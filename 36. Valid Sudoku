@@ -1,0 +1,88 @@
+class Solution {
+public:
+    struct condition{
+        bool row;
+        bool col;
+        bool square;
+    };
+    condition boardCondi[9][9];
+    unordered_map<int,int> OneToNine;
+    bool isValidSudoku(vector<vector<char>>& board) {
+        for ( int i = 0; i < 9; i++ )
+            for ( int j = 0; j < 9; j++ )
+                boardCondi[i][j].row = false,
+                boardCondi[i][j].col = false,
+                boardCondi[i][j].square = false;
+        for ( int i = 0; i < 9; i++ ){
+            for ( int j = 0; j < 9; j++ ){
+                if ( board[i][j] >= '1' && board[i][j] <= '9' ){
+                    if ( !boardCondi[i][j].row )
+                        if ( !testRow(i, board) )
+                            return false;
+                    if ( !boardCondi[i][j].col )
+                        if ( !testCol(j, board) )
+                            return false;
+                    if ( !boardCondi[i][j].square )
+                        if ( !testSquare(i,j,board) )
+                            return false;
+                }       
+            }
+        }
+        return true;
+    }
+    bool testRow( int &y,vector<vector<char>>& board ){
+        vector<int> address;
+        for ( int i = 0; i < 9; i++ ){
+            if ( board[y][i]  >= '1' && board[y][i] <= '9' ){
+                address.push_back( i );
+                OneToNine[(int)board[y][i]]++;
+                if ( OneToNine[(int)board[y][i]] == 2 )
+                    return false;
+            }
+        }
+        OneToNine.clear();
+        for ( int i = 0; i < address.size(); i++ )
+            boardCondi[y][address[i]].row = true;
+        return true;
+        
+    }
+    bool testCol( int &x,vector<vector<char>>& board ){
+        vector<int> address;
+        for ( int i = 0; i < 9; i++ ){
+            if ( board[i][x]  >= '1' && board[i][x] <= '9' ){
+                address.push_back( i );
+                OneToNine[(int)board[i][x]]++;
+                if ( OneToNine[(int)board[i][x]] == 2 )
+                    return false;
+            }
+        }
+        OneToNine.clear();
+        for ( int i = 0; i < address.size(); i++ )
+            boardCondi[address[i]][x].col = true;
+        return true;
+        
+    }
+    bool testSquare( int &y,int &x,vector<vector<char>>& board ){
+        vector<int> blockY;
+        vector<int> blockX;
+        vector<vector<int>> address;
+        blockY.push_back((y/3)*3),blockY.push_back((y/3)*3+2);
+        blockX.push_back((x/3)*3),blockX.push_back((x/3)*3+2);
+        for ( int i = blockY[0];i <=blockY[1];i++ ){
+            for ( int j = blockX[0];j <= blockX[1];j++ ){
+                if ( board[i][j]  >= '1' && board[i][j] <= '9' ){
+                    address.push_back( {i,j} );
+                    OneToNine[(int)board[i][j]]++;
+                    if ( OneToNine[(int)board[i][j]] == 2 )
+                        return false;
+                }
+            }
+        }
+        OneToNine.clear();
+        for ( int i = 0; i < address.size(); i++ )
+            boardCondi[address[i][0]][address[i][1]].square = true;
+        return true;
+        
+    }
+    
+};
