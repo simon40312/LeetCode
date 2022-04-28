@@ -1,0 +1,20 @@
+
+#include <iostream>
+#include <algorithm>
+
+class Solution {
+public:
+    int maxProduct(vector<int>& a) {
+        int big,small,answer;
+        if ( a.size() )
+             big = a[0]; small = a[0]; answer= a[0];
+        for( int t = 1; t < a.size(); t++ ){
+            if ( a[t] < 0 )
+                swap(big,small);
+            big = max( a[t],big*a[t] );
+            small = min( a[t],small*a[t] );
+            answer = max( big, answer );
+        }
+        return answer;
+    }
+};
