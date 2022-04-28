@@ -1,0 +1,32 @@
+class Solution {
+public:
+    vector<vector<int>> Ans = {};
+    vector<vector<int>> permute(vector<int>& nums) {
+        if (nums.empty())
+            return {};
+        for ( int i = 0; i < nums.size(); i++ )
+            DP(nums[i]);
+        return Ans;
+    }
+    
+    void DP( int &InsertNode ){
+        int AnsSize = Ans.size();
+        if ( Ans.empty() ){
+            Ans.push_back({InsertNode});return;
+        }
+        for ( int i = 0 ; i < AnsSize;i++ ){
+            eachPositionInsert( Ans[i],InsertNode );
+        }
+        Ans.erase(Ans.begin(),Ans.begin()+AnsSize);
+    }
+    void eachPositionInsert( vector<int> &list, int &node ){
+        for ( int i=0;i <list.size();i++ ){
+            list.insert(list.begin()+i,node);
+            Ans.push_back(list);
+            list.erase(list.begin()+i);
+        }
+        list.push_back( node );
+        Ans.push_back(list);
+        list.pop_back();
+    }
+};
