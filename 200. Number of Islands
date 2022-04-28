@@ -1,0 +1,30 @@
+class Solution {
+public:
+    
+    int numIslands(vector<vector<char>>& grid) {
+        if (grid.empty()) return 0;
+        unordered_map<,bool> stamp
+        int ans = 0;
+        for( int i = 0;i < grid.size();i++ ){
+            for ( int j = 0;j < grid[0].size();j++ ){
+                if ( grid[i][j] == '1' ){
+                    DFS(i,j,grid);
+                    ans++;
+                }
+            }
+        }
+        return ans;
+    }
+    void DFS(int i,int j,vector<vector<char>>& grid){
+        grid[i][j] = '*';
+        if ( i > 0 && grid[i-1][j] == '1')
+            DFS(i-1,j,grid );
+        if ( j > 0 && grid[i][j-1] == '1' )
+            DFS(i,j-1,grid);
+        if ( i < grid.size()-1 && grid[i+1][j] == '1' )
+            DFS(i+1,j,grid);
+        if ( j < grid[0].size()-1  && grid[i][j+1] == '1' )
+            DFS(i,j+1,grid);
+        
+    }
+};
