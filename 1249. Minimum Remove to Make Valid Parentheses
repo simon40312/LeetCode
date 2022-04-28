@@ -1,0 +1,32 @@
+class Solution {
+public:
+    string minRemoveToMakeValid(string s) {
+        vector<int> Left = {};
+        vector<int> Right = {};
+        vector<int> EraseList = {};
+        for ( int i = 0;i< s.size();i++ ){
+            if ( s[i] == '(' || s[i] == ')' ){
+                if ( s[i] == '(' )
+                    Left.push_back(i);
+                else{ //')'
+                    if ( Left.size() == Right.size() )
+                        EraseList.push_back(i);
+                    else // L > R
+                        Right.push_back(i);
+                }
+                    
+            }
+        }
+        while ( Left.size() > Right.size() ){
+            EraseList.push_back(Left[Left.size()-1]);
+            Left.erase(Left.begin() + Left.size()-1 );
+        }
+        sort(EraseList.begin(),EraseList.end());
+        int temp = 0;
+        for ( int i = 0; i < EraseList.size();i++ ){
+            s.erase(EraseList[i]-temp,1);
+            temp++;
+        }
+        return s;
+    }
+};
