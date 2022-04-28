@@ -1,0 +1,44 @@
+class Solution {
+public:
+    /*
+    vector<vector<int>> subsets(vector<int>& nums) {
+        vector<vector<int>> ans = {};
+        vector<int> ansTemp;
+        int n = nums.size();
+        int bitn = 1;
+        for ( int i = 0; i < n;i++ )
+            bitn = bitn * 2;
+        
+        for ( int i = 0; i < bitn; i++ ){
+            ansTemp = {};
+            for( int j = 0; j < n ; j++ ){
+                if ( i & (int)pow(2,j) ){
+                    ansTemp.push_back( nums[j] );
+                }
+            }
+            ans.push_back(ansTemp);
+                
+        }
+        return ans;
+    }
+    */
+
+    vector<vector<int>> ans;
+    vector<int> vec;
+    void dfs(int now, vector<int>& nums){
+        if ( now == nums.size() ){
+            ans.push_back( vec );
+            return;
+        }
+        dfs(now+1,nums);
+        vec.push_back( nums[now] );
+        dfs( now+1,nums );
+        vec.pop_back();
+    }
+    vector<vector<int>> subsets(vector<int>& nums) {
+        dfs(0,nums);
+        return ans;
+    }
+
+    
+};
