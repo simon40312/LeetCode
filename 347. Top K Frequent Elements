@@ -1,0 +1,29 @@
+class Solution {
+public:
+    
+    
+    vector<int> topKFrequent(vector<int>& nums, int k) {
+        map<int, int> temp;
+        vector<pair<int,int>> forsort;
+        pair<int,int> t;
+        for(int i= 0; i < nums.size();i++ ){
+            temp[nums[i]]++;
+        }
+        for( auto tempFor:temp ){
+            forsort.push_back(make_pair(tempFor.first,tempFor.second));
+            for( int ii = forsort.size()-1; ii > 0;ii-- ){
+                if (forsort[ii].second > forsort[ii-1].second ){
+                    t= forsort[ii];
+                    forsort[ii] = forsort[ii-1];
+                    forsort[ii-1] = t;
+                }
+                    
+            }
+        }
+        nums.clear() ;
+        for( int i = 0; i < k;i++ ){
+            nums.push_back( forsort[i].first);
+        }
+        return nums;
+    }
+};
