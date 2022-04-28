@@ -1,0 +1,23 @@
+class Solution {
+public:
+    bool isAnagram(string s, string t) {
+        unordered_map<char,int> CharSet;
+        for ( int i = 0; i < s.size(); i++ ){
+            CharSet[s[i]]++;
+        }
+        
+        for( int i = 0; i < t.size(); i++ ){
+            if ( CharSet.find(t[i]) == CharSet.end()  ){
+                return false;
+            }
+            CharSet[t[i]]--;
+            if ( CharSet[t[i]] == 0 ){
+                CharSet.erase (t[i]); 
+            }
+        }
+        if ( CharSet.empty() ){
+            return true;
+        }
+        return false;
+    }
+};
