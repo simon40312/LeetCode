@@ -1,0 +1,38 @@
+class Solution {
+public:
+    vector<int> spiralOrder(vector<vector<int>>& matrix) {
+        int Row = matrix.size();
+        int Column = matrix[0].size();
+        vector<int> answer;
+        int up = 0,left = 0, right = Column-1, down = Row-1;
+        
+        while( answer.size() < ( Row * Column ) ){
+            for( int col= left;col <= right;col++ ){
+                answer.push_back( matrix[up][col] );
+            }
+            for( int row = up+1; row <= down; row++ ){
+                answer.push_back( matrix[row][right] );
+            }
+            if (up != down) {
+                // Traverse from right to left.
+                for (int col = right - 1; col >= left; col--) {
+                    answer.push_back(matrix[down][col]);
+                }
+            }
+            
+            if (left != right) {
+                // Traverse upwards.
+                for (int row = down - 1; row > up; row--) {
+                    answer.push_back(matrix[row][left]);
+                }
+            }
+            
+            right--;
+            left++;
+            up++;
+            down--;
+            
+        }
+        return answer;
+    }
+};
