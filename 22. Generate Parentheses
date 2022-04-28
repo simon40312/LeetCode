@@ -1,0 +1,36 @@
+class Solution {
+public:
+    string tempAns = "";
+    vector<string> Ans = {};
+    int size = 0;
+    vector<string> generateParenthesis(int n) {
+        size = n;
+        DFS( 0, 0 );
+        return Ans;
+    }
+    
+    void DFS( int l, int r ){
+        if ( (l == r) && (l == size) ){
+            Ans.push_back( tempAns );
+            return;
+        }
+        else if ( l == r ){
+            tempAns.push_back('(');
+            DFS(l+1,r);
+            tempAns.pop_back();
+        }
+        else if ( l < size && l > r ){
+            tempAns.push_back('(');
+            DFS(l+1,r);
+            tempAns.pop_back();
+            tempAns.push_back(')');
+            DFS(l,r+1);
+            tempAns.pop_back();
+        }
+        else {
+            tempAns.push_back(')');
+            DFS(l,r+1);
+            tempAns.pop_back();
+        }
+    }
+};
