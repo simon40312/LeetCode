@@ -1,0 +1,46 @@
+class Solution {
+    public int[][] merge(int[][] intervals) {       
+       int ansLen = 0;  // 前者為陣列一開始的迴圈算數 後者是要計算最後會有幾個元素
+        ansLen = intervals.length; // 取得一開始陣列長杜     
+        if ( ansLen == 0 )
+            return intervals;        
+        for ( int CountA = 0; CountA < intervals.length ;CountA++) {           
+            for ( int CountB = CountA+1; CountB < intervals.length; CountB++) {
+                if ( CountB < intervals.length && intervals[CountB] != null && intervals[CountA] != null  )  {
+                    if ( 
+                    ( intervals[CountA][0] < intervals[CountB][0] && intervals[CountA][1] >= intervals[CountB][0] )
+                    ||
+                    ( intervals[CountA][0] >= intervals[CountB][0] && intervals[CountA][0] <= intervals[CountB][1]  )
+                    ) {                   
+                        if ( intervals[CountA][1] > intervals[CountB][1] )
+                            intervals[CountB][1] = intervals[CountA][1] ; 
+                        if ( intervals[CountA][0] < intervals[CountB][0] )
+                            intervals[CountB][0] = intervals[CountA][0] ; 
+                        intervals[CountA] = null ;
+                        ansLen--;  
+                                   
+                    } // if
+                    
+                } // if !null                
+                
+            } // for
+                                      
+        } // for
+        
+        int  CountEx = 0;
+        int ansMatrix[][] = new int[ansLen][2];        
+        for( int a = 0; a < ansLen; a++ ) {
+            while (  CountEx < intervals.length && intervals[CountEx] == null )
+                CountEx++;
+            System.out.println(CountEx);
+            ansMatrix[a][0] = intervals[CountEx][0];
+            ansMatrix[a][1] = intervals[CountEx][1];
+            CountEx++;
+        }            
+        return ansMatrix;
+        
+        
+    }
+        
+}
+
