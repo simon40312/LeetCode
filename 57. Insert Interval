@@ -1,0 +1,76 @@
+class Solution {
+public:
+    vector<vector<int>> insert(vector<vector<int>>& intervals, vector<int>& newInterval) {
+        vector<vector<int>> result;
+        bool inserted = false,merged = false;
+        int start =0, end = 0,
+            startNew = newInterval[0], endNew = newInterval[1];
+        
+        for ( vector<int> &CurrentInterval : intervals ){
+            
+            start = CurrentInterval[0];
+            end = CurrentInterval[1];
+            
+            if ( inserted && !merged ){
+                //push to result
+                result.push_back( CurrentInterval );
+            }
+            else if ( inserted && merged  ){
+                
+                if ( endNew < start ){
+                    result.push_back( CurrentInterval );
+                    merged = false;
+                }
+                else if ( endNew >= start && endNew <= end ){
+                    result[result.size()-1][1] = end;
+                    merged = false;
+                }
+                
+            }
+            else if ( endNew < start && !inserted ){
+                //insert whole interval before current interval
+                result.push_back( newInterval );
+                result.push_back( CurrentInterval );
+                inserted = true;
+            }
+            else if ( startNew < start && endNew >= start && endNew <= end && !inserted ){
+                //change this interval start to startNew
+                CurrentInterval[0] = startNew ;
+                result.push_back( CurrentInterval );
+                inserted = true;
+            }
+            
+            else if ( startNew < start && endNew > end && !inserted ){
+                //change this interval end to endNew
+                CurrentInterval[0] = startNew;
+                CurrentInterval[1] = endNew;
+                result.push_back( CurrentInterval );
+                merged = true;
+                inserted = true;
+            }
+            else if ( startNew >=start && startNew <=end && endNew <= end && !inserted ){
+                //
+                result.push_back( CurrentInterval );
+                inserted = true;
+            }
+            else if ( startNew >=start && startNew <=end && endNew > end && !inserted ){
+                //change this interval end to endNew
+                CurrentInterval[1] = endNew;
+                result.push_back( CurrentInterval );
+                inserted = true;
+                merged = true;
+            }
+            else{
+                //push to result
+                result.push_back( CurrentInterval );
+            }
+            
+            
+        }
+        if ( !inserted ) {
+            //haven't inserted , push in the end of result
+            result.push_back( newInterval );
+        }
+        return result;
+    }
+};
