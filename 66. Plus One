@@ -1,0 +1,24 @@
+class Solution {
+public:
+    vector<int> plusOne(vector<int>& digits) {
+        bool carry = true;
+        int n = digits.size();
+        for ( int temp = n-1; temp >= 0;temp-- ){
+            if ( carry )
+                digits[temp] = digits[temp] + 1;
+            if ( digits[temp] == 10 ){
+                carry = true;  
+                digits[temp] = 0;
+            }
+            else {
+                carry = false;
+                return digits;
+            }
+                
+        }
+        if ( carry )
+            digits.insert(digits.begin(),1); // insert 1 to listhead
+            
+        return digits;
+    }
+};
