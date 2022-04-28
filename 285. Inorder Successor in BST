@@ -1,0 +1,44 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* inorderSuccessor(TreeNode* root, TreeNode* p) {
+        bool NR = false;
+        if ( NoRight(p) )
+            NR = true;
+        TreeNode* tempBig = NULL;
+        if ( NR ){
+            while( root->val != p->val  ){
+                if( root->val > p->val ){
+                    tempBig = root;
+                    root = root->left;      
+                }
+                else {
+                    root = root->right;
+                }
+            }
+            return tempBig;
+        }
+        else {
+            p = p->right;
+            while( p->left )
+                p = p->left;
+            return p;
+        }
+    }
+    
+    bool NoRight( TreeNode* root ){
+        if ( !root->right )
+            return true;
+        else
+            return false;
+    }
+    
+};
