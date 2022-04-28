@@ -1,0 +1,18 @@
+class Solution {
+public:
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+      vector<vector<string>>ans;
+        map<string,vector<string>>mp;
+        for(int i=0;i<strs.size();i++)
+        {                                // sort the string one by one and push into map
+            string temp=strs[i];
+            sort(strs[i].begin(),strs[i].end());
+            mp[strs[i]].push_back(temp);
+        }
+        for(auto i:mp)
+        {
+            ans.push_back(i.second);   // iterate in map and put i->second in ans vector
+        }
+        return ans;
+    }
+};
