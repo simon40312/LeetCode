@@ -1,0 +1,28 @@
+class Solution {
+public:
+    bool canWinNim(int n) {
+        if ( n % 4 )
+            return true;
+        else 
+            return false;
+        vector<bool> DP;
+        DP.resize(n);
+        for( int i = 0; i < n; i++ ){
+            if ( i >= 0 && i <= 2 ){
+                DP[i] = true;
+            }
+            else{
+                if ( DP[i-1] && DP[i-2] && DP[i-3] ){
+                    DP[i] = false;    
+                }
+                else{
+                    DP[i] = true;
+                }
+            }
+        }
+        for(int i = 0; i< 100;i++)
+            cout<<DP[i];
+        return DP[n-1];
+        
+    }
+};
