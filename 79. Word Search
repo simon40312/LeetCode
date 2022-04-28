@@ -1,0 +1,45 @@
+class Solution {
+public:
+    bool exist(vector<vector<char>>& board, string word) {
+        vector<vector<char>> resetBoard = board;
+        for( int row = 0; row < board.size(); row++ ){
+            for ( int column = 0; column < board[0].size();column++ ){
+                if ( IsMatch( row,column,board,word,0,word.size()-1 )) {
+                    return true;
+                }
+                board = resetBoard;
+            }
+        }
+        return false;
+    }
+    bool IsMatch( int row, int column, vector<vector<char>> &board,string word, 
+                  int TargetCharNumber, int end ){
+        bool up = 0,down = 0,left = 0,right = 0;
+        char recover = board[row][column];
+        if ( board[row][column] == word[TargetCharNumber] ){
+            board[row][column] = '#';
+            if ( TargetCharNumber == end ){
+                return true;
+            }
+            else {
+                TargetCharNumber++;
+                if ( (row+1) < board.size() )
+                    down = IsMatch( (row+1),column,board,word,TargetCharNumber,end );
+                if ( (row-1) >= 0 )
+                    up = IsMatch( (row-1),column,board,word,TargetCharNumber,end );
+                if ( (column+1) < board[0].size() )
+                    right = IsMatch( row,(column+1),board,word,TargetCharNumber,end );
+                if ( (column-1) >= 0 )
+                    left = IsMatch( row,(column-1),board,word,TargetCharNumber,end );
+                if ( up || down || left || right )
+                    return true;
+                else {
+                    board[row][column] = recover;
+                    return false;
+                }
+            }
+        }
+        
+        return false;
+    }
+};
