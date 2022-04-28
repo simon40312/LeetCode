@@ -1,0 +1,33 @@
+class Solution {
+public:
+    vector<string> letterCombinations(string digits) {
+        unordered_map<char,vector<string>>m1;
+        if ( digits.empty() )
+            return {};
+        m1['2'] = {"a","b","c"};
+        m1['3'] = {"d","e","f"};
+        m1['4'] = {"g","h","i"};
+        m1['5'] = {"j","k","l"};
+        m1['6'] = {"m","n","o"};
+        m1['7'] = {"p","q","r","s"};
+        m1['8'] = {"t","u","v"};
+        m1['9'] = {"w","x","y","z"};
+        vector<string> ans = m1[digits[0]];
+        for ( int i = 1; i < digits.size();i++ ){
+            ans = letterComb( ans,m1[digits[i]] );
+        }
+        return ans;
+    }
+    vector<string> letterComb( vector<string> s1, vector<string> s2 ){ //vector<string>v1,vector<string> v2
+        vector<string> res;
+        for( int i = 0; i < s1.size();i++ ){
+            for ( int j = 0; j <s2.size();j++ ){
+                res.push_back(s1[i]+s2[j]);
+            }
+        }
+        
+        return res;
+    }
+    
+    
+};
