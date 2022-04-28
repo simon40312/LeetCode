@@ -1,0 +1,53 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    int FindMid( int target, vector<int> inorder, int left, int right ){
+        for ( int i = left; left <= right;i++ ){
+            if ( target == inorder[i] ){
+                return i;
+            }
+        }
+        return -1;
+    }
+    
+    void build( vector<int> &preorder,vector<int> inorder,int mid, int left, int right, TreeNode* answer ){
+        answer->val = inorder[mid];
+        preorder.erase(preorder.begin());
+        int temp;
+        if ( mid > left ){
+            answer->left = new TreeNode();
+            temp = FindMid( preorder[0], inorder, left, mid-1 );
+            if ( temp != -1 )  
+                build( preorder, inorder, temp, left, mid-1, answer->left ); 
+        }
+        if ( right > mid ){
+            answer->right = new TreeNode();
+            temp = FindMid( preorder[0],inorder, mid+1, right );
+            if ( temp != -1 ) 
+                build( preorder, inorder, temp, mid+1, right, answer->right);
+        }
+        
+    }
+    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+        int temp;
+        TreeNode* answer;
+        if ( preorder.size() )
+            temp = FindMid( preorder[0],inorder, 0, inorder.size()-1 );
+        if ( temp != -1 ){
+            answer = new TreeNode();
+            build( preorder, inorder, temp, 0,inorder.size()-1, answer );
+        }
+        return answer;
+            
+    }
+};
