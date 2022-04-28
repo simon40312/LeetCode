@@ -1,0 +1,18 @@
+class Solution {
+public:
+    void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
+        for( int i = 0; i < n; i++ ){
+            Insert( nums2[i],nums1,m );
+            m = m+1;
+        }
+        nums1.erase(nums1.begin()+m,nums1.end());
+    }
+    void Insert( int target, vector<int> & list, int nums ){
+        for ( int i = 0; i < nums;i++ ){
+            if ( target < list[i] ){
+                list.insert(list.begin()+i,target);return;
+            }
+        }
+        list.insert(list.begin()+nums,target);
+    }
+};
