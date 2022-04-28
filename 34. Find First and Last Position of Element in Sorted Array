@@ -1,0 +1,76 @@
+class Solution {
+public:
+    int gl,gr,gmid;
+    vector<int> searchRange(vector<int>& nums, int target) {
+        vector<int> ans;
+        gl = 0; gr = nums.size()-1;
+        if ( nums.empty() || target > nums[gr] || target < nums[gl] )
+            return {-1,-1};
+        gmid = BST(target,nums);
+        if ( gmid == -1 )
+            return {-1,-1};
+        ans.push_back( BSTl( target,nums ) );
+        ans.push_back( BSTr( target,nums ) );  
+        return ans;
+    }
+    
+    int BST( int target, vector<int> &nums ){
+        int mid;
+        while( gl < gr ){
+            mid = (gl+gr)/2;
+            if ( gl == (gr-1) )
+                break;
+            if ( nums[mid] == target )
+                return mid;
+            else if ( target > nums[mid] ){
+                gl = mid;
+            }
+            else {
+                gr = mid;
+            }
+        }
+        if ( nums[gl] == target )
+            return gl;
+        else if ( nums[gr] == target )
+            return gr;
+        else 
+            return -1;
+    }
+    int BSTr( int target, vector<int> &nums ){
+        int mid;
+        int l = gmid, r = gr; 
+        while( l < r ){
+            mid = (l+r)/2;
+            if ( l == (r-1) )
+                break;
+            if ( nums[mid] > target )
+                r = mid;
+            else {
+                l = mid;
+            }
+        }
+        if ( nums[r] == target )
+            return r;
+        else 
+            return l;
+    }
+    int BSTl( int target, vector<int> &nums ){
+        int mid;
+        int l = gl, r = gmid;
+        while( l < r ){
+            mid = (l+r)/2;
+            if ( l == (r-1) )
+                break;
+            if ( nums[mid] <  target )
+                l = mid;
+            else {
+                r = mid;
+            }
+        }
+        if ( nums[l] == target )
+            return l;
+        else 
+            return r;
+    }
+    
+};
