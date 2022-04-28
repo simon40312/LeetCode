@@ -1,0 +1,30 @@
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        int answer = 0, tempAnswer = 0,elementRepeat = 0;
+        vector<char> storedString;
+        for ( int i = 0; i < s.size(); i++ ){
+            elementRepeat = ReturnElement(storedString,s[i]);
+            if ( elementRepeat == -1 ){
+                storedString.push_back( s[i] );
+                tempAnswer++;
+                if ( tempAnswer > answer )
+                    answer = tempAnswer;
+            }
+            else{
+                storedString.erase( storedString.begin(), (storedString.begin()+elementRepeat+1) );
+                storedString.push_back(s[i]);
+                tempAnswer = storedString.size();
+            }
+        }
+        return answer;
+    }
+    
+    int ReturnElement( vector<char> temp , char target){
+        for( int i = 0;i<temp.size(); i++ )
+            if ( target == temp[i] )
+                return i;
+        return -1;
+    }
+    
+};
