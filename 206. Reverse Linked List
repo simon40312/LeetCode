@@ -1,0 +1,40 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* reverseList(ListNode* head) {
+        ListNode* answer = NULL;
+        if ( !head )
+            return head;
+        if ( !head->next ){
+            return head;
+        }
+        
+        return ReverseArrow( answer , head );;
+    }
+    ListNode* ReverseArrow( ListNode* sorted, ListNode* right ){
+        /*
+        every time we insert one node(from right) in the head of sorted list
+        then check if there is any node in right that we have to keep sort
+        
+        */
+        ListNode* temp = new ListNode(); // make a node to get the first node in right
+        temp->val = right->val;// copy right first node
+        temp->next = sorted; // temp point to sorted link-list  
+        sorted = temp; // make temp be a whole sorted link-list, then you got a new reverse list
+        right = right->next; 
+        if ( right ) // if right is not null , keep going
+            return ReverseArrow(  sorted, right );
+        else 
+            return sorted;
+    }
+    
+};
