@@ -1,0 +1,75 @@
+class Solution {
+public:
+    
+    vector<vector<int>> threeSum(vector<int>& nums) {
+        int hi,lo,target;
+        sort( nums.begin(),nums.end() );
+        //let's sort the array
+        vector<vector<int>> answer ;
+        vector<int> answerTemp;
+        for ( int i = 0; i < nums.size() && nums[i] <= 0;i++ ){
+            /*
+            the concept is that we fix one num then use TwoSum to solve the other 2 nums question
+            so this for() is for fix every one element 
+            but when nums[i] > 0 there is no need to find solution 
+            (bz the fix one is + , the rest of num add together must > 0)
+            
+            */
+            hi = nums.size()-1;
+            lo = i+1;
+            target = 0 - nums[i];
+            //target is to solve TwoSum issue
+            if ( i >0 && nums[i] == nums[i-1] )
+                lo = nums.size();
+            /*
+            i > 0 is for first case 
+            and nums[i] == nums[i-1]  is for the case we absolutely finished it
+            we dont want the repeat answer
+            
+            */
+            while ( hi > lo ){
+                //the concept in this issue is that when we fix first element then
+                //we use hi(rightest) and lo(leftest)
+                //to find the TwoSum answer
+                //if hi + lo too small we plus lo
+                // otherwise sub the hi
+                if (  ( nums[hi]+nums[lo] ) > target )
+                    hi--;
+                else if ( ( nums[hi]+nums[lo] ) < target )
+                    lo++;
+                else {
+                    answerTemp.push_back(nums[i]);
+                    answerTemp.push_back(nums[lo]);
+                    answerTemp.push_back(nums[hi]);
+                    answer.push_back(answerTemp);
+                    //put answer
+                    answerTemp.clear();
+                    hi--;lo++;
+                    while (lo < hi && nums[lo] == nums[lo - 1])
+                        lo++;
+                    /*
+                    Careful!!!
+                    when we got a answer , we add lo and sub hi to find a new set of answer
+                    but there is still have the chance that the lo+1 is same as lo
+                    that maybe make our function create another wrong answer set;
+                    ex: {0,0,0,0,0}
+                    if we fix first element ,and run
+                    there is a lot of same sets will create if we dont filter the "lo == lo-1" case
+                    like {{0,0,0},{0,0,0}}
+                    if we show in the address way , it is [0][1][4], [0][2][3]
+                    in our function , these are two sets of answer, but in the reality, there are same                                           answer.
+                    
+                    so we have to use this 
+                    
+                    while (lo < hi && nums[lo] == nums[lo - 1])
+                        lo++;
+                    
+                    to filter it
+                    */
+                }
+            }
+        } 
+        return answer;    
+    }
+
+};
